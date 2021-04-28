@@ -1,14 +1,23 @@
 # Computational_criminology
-Website to find base of serial killer based on Rossmo's formula.
+> Website to find base of serial killer based on Rossmo's formula.
 
-Technology used:
-HTML
-CSS
-Bootstrap
-Javascript
+<br>
+**Technology used:**
+<ul>
+  <li> HTML </li>
+  <li> CSS </li>
+  <li> Bootstrap </li>
+  <li> Javascript </li>
+</ul>
+<br>
+<br>
 
-For submission of CS349 - Software Group Project IV
+<h5>
+For submission of CS349 - Software Group Project IV <br>
 By
-18DCS004 - Rushit Ajudiya
-18DCS010 - Jilsa Chandarana
-18DCS056 - Malav Padhya
+  <ul>
+    <li> 18DCS004 - Rushit Ajudiya </li>
+    <li> 18DCS010 - Jilsa Chandarana </li>
+    <li> 18DCS056 - Malav Padhya </li>
+  </ul>
+</h5>

@@ -3,7 +3,7 @@
 
 <br>
 
-**Technology used:**
+**Technology used :**
 <ul>
   <li> HTML </li>
   <li> CSS </li>

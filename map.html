@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta name="viewport" content="initial-scale=1.0, width=device-width" />
+        
+        <title>Geographic Profiling</title> 
+
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
+        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"></script>
+        
+        <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+        
+        <style>
+             .ball {
+                position: absolute;
+                border-radius: 100%;
+                opacity: 0.7;
+            }
+
+            body
+            {
+                background-color: rgb(2, 2, 2);
+                
+            }
+
+            #myDiv
+            {
+                background-color: rgb(145, 107, 107);
+                height: 650px;
+                border-radius: 200px;
+                z-index: 2000;
+            }
+
+            .slidecontainer
+            {
+                width: 100%;
+                z-index: 20000;
+            }
+
+            .slider
+            {
+                -webkit-appearance: none;  /* Override default CSS styles */
+                appearance: none;
+                width: 100%; 
+                height: 20px;
+                margin-top: 3px; 
+                background: rgb(159, 30, 219);
+                -webkit-transition: .2s;
+                transition: opacity .2s;
+                border-radius: 20px;
+                box-shadow: 2px 2px 2px 1px rgba(0, 0, 0, 0.2);
+
+            }
+
+            .slider2
+            {
+                -webkit-appearance: none;  /* Override default CSS styles */
+                appearance: none;
+                width: 100%; 
+                height: 20px;
+                margin-top: 3px; 
+                background: rgb(54, 218, 247);
+                -webkit-transition: .2s;
+                transition: opacity .2s;
+                border-radius: 20px;
+                box-shadow: 2px 2px 2px 1px rgba(0, 0, 0, 0.2);
+
+
+            }
+
+            .slider3
+            {
+                -webkit-appearance: none;  /* Override default CSS styles */
+                appearance: none;
+                width: 100%; 
+                height: 20px;
+                margin-top: 3px; 
+                background: rgb(236, 51, 113);
+                -webkit-transition: .2s;
+                transition: opacity .2s;
+                border-radius: 20px;
+                box-shadow: 2px 2px 2px 1px rgba(0, 0, 0, 0.2);
+
+
+            }
+
+
+          
+            
+            .sc{
+                background-color: rgb(0, 0, 0);
+                box-shadow: -1px -2px 4px -1px rgba(0, 0, 0, 0.2);
+
+            }
+
+            .sometext
+            {
+                color: #ff7f07;
+                text-align: right;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container"  id="c"></div>
+        <div class="conatiner">
+            <div class="container">
+                <h1 class="text-center p-2" style="text-shadow: 2px 2px 2px #ddd2d2;color:white">Heat Map</h1>
+            </div>
+        </div>
+        <div class="container" >
+        <div class="mt-5 row text-center align-items-center">
+
+            <div class="col-lg-4 ">
+                <p class="sometext text-center"> Value of B</p>
+                <input type="range" min="1" max="100" value="50" class="slider" id="myRange1">
+            </div>
+
+            <div class="col-lg-4 ">
+                <p class="text-center sometext"> Value of f </p>
+                <input type="range" min="0" max="1" value="0.67" step="0.01" class="slider2 " id="myRange2">
+            </div>
+           
+            <div class="col-lg-4 ">
+                <p class="text-center sometext"> Value of g </p>
+            <input type="range" min="0" max="1" value="0.49" step="0.01" class="slider3 " id="myRange3">
+            </div>
+        </div>
+    </div>
+
+        <br>
+        <div class="container sc mb-5" >
+            <div  id="myDiv"></div>
+        </div>
+
+      
+        <script src="formula_js.js"></script>
+        <script>
+            // Some random colors
+        const colors = ["#3CC157", "#2AA7FF", "#1B1B1B", "#FCBC0F", "#F85F36"];
+        
+        const numBalls = 50;
+        const balls = [];
+        
+        for (let i = 0; i < numBalls; i++) {
+          let ball = document.createElement("div");
+          ball.classList.add("ball");
+          ball.style.background = colors[Math.floor(Math.random() * colors.length)];
+          ball.style.left = `${Math.floor(Math.random() * 100)}vw`;
+          ball.style.top = `${Math.floor(Math.random() * 100)}vh`;
+          ball.style.transform = `scale(${Math.random()})`;
+          ball.style.width = `${Math.random()}em`;
+          ball.style.height = ball.style.width;
+          
+          balls.push(ball);
+          document.getElementById("c").append(ball);
+        }
+        
+        // Keyframes
+        balls.forEach((el, i, ra) => {
+          let to = {
+            x: Math.random() * (i % 2 === 0 ? -11 : 11),
+            y: Math.random() * 12
+          };
+        
+          let anim = el.animate(
+            [
+              { transform: "translate(0, 0)" },
+              { transform: `translate(${to.x}rem, ${to.y}rem)` }
+            ],
+            {
+              duration: (Math.random() + 1) * 2000, // random duration
+              direction: "alternate",
+              fill: "both",
+              iterations: Infinity,
+              easing: "ease-in-out"
+            }
+          );
+        });
+        
+        </script>
+    </body>
+</html>
